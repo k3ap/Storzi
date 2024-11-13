@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
 
     outputs:
-      dirs: ${{ steps.patterns.outputs.dirs }}
+      patterns: ${{ steps.patterns.outputs.dirs }}
 
     steps:
       - name: Checkout the repository
@@ -19,19 +19,23 @@ jobs:
       - name: List all patterns
         id: patterns
         run: |
-          dirs=$(find patterns -mindepth 1 -maxdepth 1 -type d -printf '"%P"\n' | jq -s .)
+          dirs=$(find patterns -mindepth 1 -maxdepth 1 -type d -printf '"%P"\n' | jq -c -s .)
           echo "dirs=$dirs" >> $GITHUB_OUTPUT
 
   deploy:
     name: Deploy (${{ matrix.pattern }})
     runs-on: ubuntu-latest
 
-    needs: setup
+    needs:
+      - setup
 
     strategy:
       fail-fast: false
       matrix:
         pattern: ${{ fromJson(needs.setup.outputs.patterns) }}
+
+    env:
+      pattern: ${{ matrix.pattern }}
 
     steps:
       - name: Checkout the repository
@@ -50,7 +54,7 @@ jobs:
 
       - name: Validate the pattern
         run: |
-          cd patterns/${{ matrix.pattern }}
+          cd "patterns/$pattern"
 
           # Parse the config file
           name=$(yq e '.name' config.yml)
@@ -61,31 +65,31 @@ jobs:
 
           # Validate that the name is provided
           if [ "$name" = "null" ]; then
-            echo "The name field is required"
+            echo "::error file=patterns/$pattern/config.yml::The name field is required"
             exit 1
           fi
 
           # Validate that the duration (if provided) is a number
           if [ "$duration" != "null" ] && ! [[ "$duration" =~ ^[0-9]+$ ]]; then
-            echo "The duration field must be a number if provided"
+            echo "::error file=patterns/$pattern/config.yml::The duration field must be a number if provided"
             exit 1
           fi
 
       - name: Build the pattern
         run: |
-          cd patterns/${{ matrix.pattern }}
-          docker build --tag "${{ vars.DOCKER_REGISTRY }}/${{ matrix.pattern }}" .
+          cd "patterns/$pattern"
+          docker build --tag "${{ vars.DOCKER_REGISTRY }}/$pattern" .
 
       - name: Push the pattern to the registry
         if: github.ref == 'refs/heads/main'
         run: |
-          cd patterns/${{ matrix.pattern }}
-          docker push "${{ vars.DOCKER_REGISTRY }}/${{ matrix.pattern }}"
+          cd "patterns/$pattern"
+          docker push "${{ vars.DOCKER_REGISTRY }}/$pattern"
 
       - name: Submit the pattern to the server
         if: github.ref == 'refs/heads/main'
         run: |
-          cd patterns/${{ matrix.pattern }}
+          cd "patterns/$pattern"
 
           # Parse the config file
           name=$(yq e '.name' config.yml)
@@ -96,14 +100,14 @@ jobs:
 
           # Prepare the payload
           payload=$(jq -n \
-            --arg identifier "${{ matrix.pattern }}" \
+            --arg identifier "$pattern" \
             --arg name "$name" \
             --arg description "$description" \
             --arg author "$author" \
             --arg school "$school" \
-            --argjson duration "${duration}" \
-            --arg source "https://github.com/${{ github.repository }}/tree/${{ github.sha }}/patterns/${{ matrix.pattern }}" \
-            --arg docker "${{ vars.DOCKER_REGISTRY }}/${{ matrix.pattern }}" \
+            --argjson duration "$duration" \
+            --arg source "https://github.com/${{ github.repository }}/tree/${{ github.sha }}/patterns/$pattern" \
+            --arg docker "${{ vars.DOCKER_REGISTRY }}/$pattern" \
             '{identifier: $identifier, name: $name, description: $description, author: $author, school: $school, duration: $duration, source: $source, docker: $docker}')
 
           # Submit the payload
@@ -116,9 +120,9 @@ jobs:
 
           # Check the response
           if [[ "$response" -lt 200 || "$response" -ge 300 ]]; then
-            echo "Error: Failed to submit the pattern.\n"
-            echo "Status code:\n$response\n"
-            echo "Response:"
+            echo "::error::Failed to submit the pattern"
+            echo "\nStatus code:\n$response"
+            echo "\nResponse:"
             cat response.txt
             exit 1
           fi

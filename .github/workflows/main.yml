@@ -63,6 +63,9 @@ jobs:
           school=$(yq e '.school' config.yml)
           duration=$(yq e '.duration' config.yml)
 
+          # Output parsed properties as an annotation
+          echo "::notice file=patterns/$pattern/config.yml,title=Pattern Properties::Identifier: $pattern Name: $name, Description: $description, Author: $author, School: $school, Duration: $duration"
+
           # Validate that the name is provided
           if [ "$name" = "null" ]; then
             echo "::error file=patterns/$pattern/config.yml::The name field is required"
@@ -126,3 +129,45 @@ jobs:
             cat response.txt
             exit 1
           fi
+
+  summary:
+    name: Summary
+    if: success() || failure()
+    runs-on: ubuntu-latest
+
+    needs:
+      - setup
+      - deploy
+
+    env:
+      patterns: ${{ needs.setup.outputs.patterns }}
+      results: ${{ toJson(needs.deploy.outputs) }}
+
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@v4
+
+      - name: Generate the summary table
+        run: |
+          # Start the summary table
+          echo "| Identifier | Name | Author | School | Status |" >> $GITHUB_STEP_SUMMARY
+          echo "|------------|------|--------|--------|--------|" >> $GITHUB_STEP_SUMMARY
+
+          for pattern in $(echo "$patterns" | jq -r '.[]'); do
+            cd patterns/$pattern
+
+            # Parse the config file
+            name=$(yq e '.name' config.yml)
+            author=$(yq e '.author' config.yml)
+            school=$(yq e '.school' config.yml)
+
+            # Check if the pattern was submitted
+            if [[ "$(echo "$results" | jq -r --arg pattern "$pattern" '.[$pattern].result')" = "success" ]]; then
+              result=":white_check_mark: Success"
+            else
+              result=":x: Failure"
+            fi
+
+            # Print the summary row
+            echo "| $pattern | $name | $author | $school | $result |" >> $GITHUB_STEP_SUMMARY
+          done

@@ -52,6 +52,42 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
           registry: ${{ vars.DOCKER_REGISTRY }}
 
+      - name: Apply the default configuration
+        run: |
+          declare -A filetypes
+
+          filetypes=(
+            ["main.py"]="python"
+            ["main.js"]="javascript"
+          )
+
+          cd "patterns/$pattern"
+
+          # Keep the custom Dockerfile if it exists
+          if [ -f "Dockerfile" ]; then
+            echo "::notice file=patterns/$pattern/Dockerfile::Using custom Dockerfile"
+            exit 0
+          fi
+
+          # Determine the type of the pattern
+          type=""
+          for file in "${!filetypes[@]}"; do
+            if [ -f "$file" ]; then
+              type=${filetypes[$file]}
+              break
+            fi
+          done
+
+          if [ -z "$type" ]; then
+            echo "::error::Cannot determine the type of the pattern"
+            exit 1
+          fi
+
+          echo "::notice::Detected pattern type: $type"
+
+          # Copy the default configuration for the type
+          cp -r "../../defaults/$type/." "."
+
       - name: Validate the pattern
         run: |
           cd "patterns/$pattern"
@@ -64,7 +100,7 @@ jobs:
           duration=$(yq e '.duration' config.yml)
 
           # Output parsed properties as an annotation
-          echo "::notice file=patterns/$pattern/config.yml,title=Pattern Properties::Identifier: $pattern Name: $name, Description: $description, Author: $author, School: $school, Duration: $duration"
+          echo "::notice file=patterns/$pattern/config.yml,title=Pattern Properties::Identifier: $pattern%0AName: $name%0ADescription: $description%0AAuthor: $author%0ASchool: $school%0ADuration: $duration"
 
           # Validate that the name is provided
           if [ "$name" = "null" ]; then

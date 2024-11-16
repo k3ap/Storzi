@@ -135,16 +135,14 @@ jobs:
             exit 1
           fi
 
-      - name: Build the pattern
-        run: |
-          cd "patterns/$pattern"
-          docker build --tag "${{ vars.DOCKER_REGISTRY }}/$pattern" .
-
-      - name: Push the pattern to the registry
-        if: github.ref == 'refs/heads/main'
-        run: |
-          cd "patterns/$pattern"
-          docker push "${{ vars.DOCKER_REGISTRY }}/$pattern"
+      - name: Build and push the pattern
+        uses: docker/build-push-action@v6
+        with:
+          context: patterns/${{ matrix.pattern }}
+          push: ${{ github.ref == 'refs/heads/main' }}
+          tags: ${{ vars.DOCKER_REGISTRY }}/${{ matrix.pattern }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
 
       - name: Submit the pattern to the server
         if: github.ref == 'refs/heads/main'

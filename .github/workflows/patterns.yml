@@ -202,6 +202,8 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Generate the summary table
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
           # Start the summary table
           echo "| Identifier | Name | Description | Author | School | Duration | Status |" >> $GITHUB_STEP_SUMMARY

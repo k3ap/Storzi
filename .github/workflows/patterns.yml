@@ -1,8 +1,13 @@
-name: Deploy Patterns
+name: Patterns
 
 on:
-  - push
-  - workflow_dispatch
+  push:
+    paths:
+      - patterns/**
+  pull_request:
+    paths:
+      - patterns/**
+  workflow_dispatch:
 
 jobs:
   setup:
@@ -10,7 +15,8 @@ jobs:
     runs-on: ubuntu-latest
 
     outputs:
-      patterns: ${{ steps.patterns.outputs.dirs }}
+      patterns: ${{ steps.patterns.outputs.patterns }}
+      filters: ${{ steps.filter.outputs }}
 
     steps:
       - name: Checkout the repository
@@ -19,8 +25,22 @@ jobs:
       - name: List all patterns
         id: patterns
         run: |
-          dirs=$(find patterns -mindepth 1 -maxdepth 1 -type d -printf '"%P"\n' | jq -c -s .)
-          echo "dirs=$dirs" >> $GITHUB_OUTPUT
+          patterns=$(find patterns -mindepth 1 -maxdepth 1 -type d -printf '"%P"\n' | jq -c -s .)
+          echo "patterns=$patterns" >> $GITHUB_OUTPUT
+
+      - name: Construct the filter expression
+        id: expression
+        env:
+          patterns: ${{ steps.patterns.outputs.patterns }}
+        run: |
+          expression=$(echo "$patterns" | yq 'map({"key": ., "value": ("patterns/" + .)}) | from_entries')
+          echo -e "expression=$expression" >> $GITHUB_OUTPUT
+
+      - name: Filter the patterns
+        id: filter
+        uses: dorny/paths-filter@v3
+        with:
+          filters: ${{ steps.expression.outputs.expression }}
 
   deploy:
     name: Deploy (${{ matrix.pattern }})
@@ -36,6 +56,8 @@ jobs:
 
     env:
       pattern: ${{ matrix.pattern }}
+
+    if: ${{ github.event_name == 'workflow_dispatch' || needs.setup.outputs.filters[matrix.pattern] == 'true' }}
 
     steps:
       - name: Checkout the repository
@@ -190,16 +212,18 @@ jobs:
           echo "|------------|------|--------|--------|--------|" >> $GITHUB_STEP_SUMMARY
 
           for pattern in $(echo "$patterns" | jq -r '.[]'); do
-            cd patterns/$pattern
+            cd "patterns/$pattern"
 
             # Parse the config file
             name=$(yq e '.name' config.yml)
             author=$(yq e '.author' config.yml)
             school=$(yq e '.school' config.yml)
 
-            # Check if the pattern was submitted
+            # Check if the pattern was successful
             if [[ "$(echo "$results" | jq -r --arg pattern "$pattern" '.[$pattern].result')" = "success" ]]; then
               result=":white_check_mark: Success"
+            elif [[ "$(echo "$results" | jq -r --arg pattern "$pattern" '.[$pattern].result')" = "skipped" ]]; then
+              result=":zzz: Skipped"
             else
               result=":x: Failure"
             fi

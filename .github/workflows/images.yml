@@ -33,7 +33,7 @@ jobs:
         env:
           images: ${{ steps.images.outputs.images }}
         run: |
-          expression=$(echo "$images" | yq 'map({"key": ., "value": ("images/" + .)}) | from_entries')
+          expression=$(echo "$images" | yq 'map({"key": ., "value": (["images/" + . + "/**"])}) | from_entries')
           echo -e "expression=$expression" >> $GITHUB_OUTPUT
 
       - name: Filter the images
@@ -85,6 +85,11 @@ jobs:
           tags: |
             type=raw,value={{date 'YYYYMMDDhhmmss'}}
             type=raw,value=latest
+          labels: |
+            org.opencontainers.image.url=https://github.com/Jelka-FMF/Storzi/tree/main/images/${{ matrix.image }}
+            org.opencontainers.image.source=https://github.com/Jelka-FMF/Storzi/tree/main/images/${{ matrix.image }}
+            org.opencontainers.image.description=Base Jelka FMF pattern image (${{ matrix.image }})
+            org.opencontainers.image.licenses=MIT
 
       - name: Build and release the Docker image
         uses: docker/build-push-action@v6

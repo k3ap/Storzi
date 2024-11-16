@@ -33,7 +33,7 @@ jobs:
         env:
           patterns: ${{ steps.patterns.outputs.patterns }}
         run: |
-          expression=$(echo "$patterns" | yq 'map({"key": ., "value": ("patterns/" + .)}) | from_entries')
+          expression=$(echo "$patterns" | yq 'map({"key": ., "value": (["patterns/" + . + "/**"])}) | from_entries')
           echo -e "expression=$expression" >> $GITHUB_OUTPUT
 
       - name: Filter the patterns

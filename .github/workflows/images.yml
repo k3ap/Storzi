@@ -50,6 +50,10 @@ jobs:
     needs:
       - setup
 
+    permissions:
+      contents: read
+      packages: write
+
     strategy:
       fail-fast: false
       matrix:
@@ -77,7 +81,7 @@ jobs:
         uses: docker/metadata-action@v5
         id: meta
         with:
-          images: ghcr.io/${{ github.organization }}/pattern-base-${{ matrix.image }}
+          images: ghcr.io/jelka-fmf/pattern-base-${{ matrix.image }}
           tags: |
             type=raw,value={{date 'YYYYMMDDhhmmss'}}
             type=raw,value=latest

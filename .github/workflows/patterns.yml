@@ -15,8 +15,7 @@ jobs:
     runs-on: ubuntu-latest
 
     outputs:
-      patterns: ${{ steps.patterns.outputs.patterns }}
-      filters: ${{ steps.filter.outputs }}
+      patterns: ${{ github.event_name == 'workflow_dispatch' && steps.patterns.outputs.patterns || steps.filter.outputs.changes }}
 
     steps:
       - name: Checkout the repository
@@ -29,6 +28,7 @@ jobs:
           echo "patterns=$patterns" >> $GITHUB_OUTPUT
 
       - name: Construct the filter expression
+        if: github.event_name != 'workflow_dispatch'
         id: expression
         env:
           patterns: ${{ steps.patterns.outputs.patterns }}
@@ -37,8 +37,9 @@ jobs:
           echo -e "expression=$expression" >> $GITHUB_OUTPUT
 
       - name: Filter the patterns
-        id: filter
+        if: github.event_name != 'workflow_dispatch'
         uses: dorny/paths-filter@v3
+        id: filter
         with:
           filters: ${{ steps.expression.outputs.expression }}
 
@@ -56,8 +57,6 @@ jobs:
 
     env:
       pattern: ${{ matrix.pattern }}
-
-    if: ${{ github.event_name == 'workflow_dispatch' || needs.setup.outputs.filters[matrix.pattern] == 'true' }}
 
     steps:
       - name: Checkout the repository
@@ -222,8 +221,6 @@ jobs:
             # Check if the pattern was successful
             if [[ "$(echo "$results" | jq -r --arg pattern "$pattern" '.[$pattern].result')" = "success" ]]; then
               result=":white_check_mark: Success"
-            elif [[ "$(echo "$results" | jq -r --arg pattern "$pattern" '.[$pattern].result')" = "skipped" ]]; then
-              result=":zzz: Skipped"
             else
               result=":x: Failure"
             fi

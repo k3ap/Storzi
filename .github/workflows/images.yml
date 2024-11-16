@@ -22,7 +22,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: List all images
-        id: patterns
+        id: images
         run: |
           images=$(find images -mindepth 1 -maxdepth 1 -type d -printf '"%P"\n' | jq -c -s .)
           echo "images=$images" >> $GITHUB_OUTPUT
@@ -31,7 +31,7 @@ jobs:
         if: github.event_name != 'workflow_dispatch'
         id: expression
         env:
-          patterns: ${{ steps.images.outputs.images }}
+          images: ${{ steps.images.outputs.images }}
         run: |
           expression=$(echo "$images" | yq 'map({"key": ., "value": ("images/" + .)}) | from_entries')
           echo -e "expression=$expression" >> $GITHUB_OUTPUT

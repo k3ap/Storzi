@@ -14,7 +14,7 @@ WORKDIR /app
 COPY . .
 
 # Install additional dependencies
-RUN if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+RUN if [ -f requirements.txt ]; then pip install --no-cache-dir -r requirements.txt; fi
 
 # Run the pattern script
 ENTRYPOINT ["python", "main.py"]

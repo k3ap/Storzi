@@ -211,7 +211,7 @@ jobs:
           echo "|------------|------|--------|--------|--------|" >> $GITHUB_STEP_SUMMARY
 
           for pattern in $(echo "$patterns" | jq -r '.[]'); do
-            cd "patterns/$pattern"
+            pushd "patterns/$pattern"
 
             # Parse the config file
             name=$(yq e '.name' config.yml)
@@ -227,4 +227,6 @@ jobs:
 
             # Print the summary row
             echo "| $pattern | $name | $author | $school | $result |" >> $GITHUB_STEP_SUMMARY
+
+            popd
           done

@@ -141,6 +141,7 @@ jobs:
           context: patterns/${{ matrix.pattern }}
           push: ${{ github.ref == 'refs/heads/main' }}
           tags: ${{ vars.DOCKER_REGISTRY }}/${{ matrix.pattern }}
+          platforms: linux/amd64,linux/arm64
           cache-from: type=gha
           cache-to: type=gha,mode=max
 

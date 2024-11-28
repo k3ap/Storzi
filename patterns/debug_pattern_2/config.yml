@@ -1,0 +1,13 @@
+# Choose a simple unique name for your pattern
+name: Debug Pattern 2
+
+# Describe your pattern in a short sentence
+description: Pattern flashes one second Z and one second pink - to be used for debug processes only
+# Optionally specify your name and school/university
+# Remove the lines if you do not want to include this information
+author: Jelkob
+school: University of Procrastination
+
+# Optionally uncomment and specify the duration of your pattern in seconds
+# Remove the line if your pattern does not require a specific duration
+# duration: 60

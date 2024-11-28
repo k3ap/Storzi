@@ -121,17 +121,17 @@ jobs:
           duration=$(yq e '.duration' config.yml)
 
           # Output parsed properties as an annotation
-          echo "::notice file=patterns/$pattern/config.yml,title=Pattern Properties ($pattern)::Identifier: $pattern%0AName: $name%0ADescription: $description%0AAuthor: $author%0ASchool: $school%0ADuration: $duration"
+          echo "::notice file=patterns/$pattern/config.yml,line=100,title=Pattern Properties ($pattern)::Identifier: $pattern%0AName: $name%0ADescription: $description%0AAuthor: $author%0ASchool: $school%0ADuration: $duration"
 
           # Validate that the name is provided
           if [ "$name" = "null" ]; then
-            echo "::error file=patterns/$pattern/config.yml::The name field is required"
+            echo "::error file=patterns/$pattern/config.yml,line=100::The name field is required"
             exit 1
           fi
 
           # Validate that the duration (if provided) is a number
           if [ "$duration" != "null" ] && ! [[ "$duration" =~ ^[0-9]+$ ]]; then
-            echo "::error file=patterns/$pattern/config.yml::The duration field must be a number if provided"
+            echo "::error file=patterns/$pattern/config.yml,line=100::The duration field must be a number if provided"
             exit 1
           fi
 

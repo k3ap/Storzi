@@ -8,6 +8,3 @@ WORKDIR /app
 
 # Copy pattern files
 COPY . .
-
-# Run the pattern script
-ENTRYPOINT ["node", "main.js"]

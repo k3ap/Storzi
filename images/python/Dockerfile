@@ -10,3 +10,9 @@ WORKDIR /app
 # Install dependencies
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy the entrypoint script
+COPY entrypoint.sh .
+
+# Run the entrypoint script
+CMD ["/bin/sh", "entrypoint.sh"]

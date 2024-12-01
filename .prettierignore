@@ -1,0 +1,9 @@
+# Ignore everything recursively
+*
+
+# Except JavaScript files
+!*.js
+!*.ts
+
+# Check subdirectories too
+!*/

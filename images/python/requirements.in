@@ -1,0 +1,9 @@
+# Jelka API
+# jelka
+
+# Utilities
+requests
+numpy
+scipy
+pandas
+pillow

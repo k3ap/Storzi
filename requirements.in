@@ -1,0 +1,15 @@
+# Jelka API
+# jelka
+
+# Jelka Simulation
+jelkasim
+
+# Utilities
+requests
+numpy
+scipy
+pandas
+pillow
+
+# Development
+ruff

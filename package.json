@@ -6,6 +6,7 @@
     "prettier": "^3.4.1"
   },
   "scripts": {
-    "format": "prettier --write"
+    "format": "prettier --write",
+    "lint": "prettier --check"
   }
 }

@@ -16,6 +16,12 @@ of Mathematics and Physics, University of Ljubljana.
 
 ## Contributing
 
+> [!TIP]
+> If you do not know how to use Git/GitHub or cannot follow these instructions
+> for any other reason, you can instead check out [Jelkly](https://jelkly.fmf.uni-lj.si/docs).
+> It provides Scratch-like visual programming tool for creating and submitting
+> your own Jelka FMF patterns, without requiring any programming knowledge.
+
 ### General Information
 
 All patterns are stored in the `patterns` directory.

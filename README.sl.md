@@ -6,7 +6,7 @@ Ta repozitorij vsebuje vse vzorce, ki tečejo na [Jelki FMF](https://jelka.fmf.u
 
 ## Prispevanje
 
-> [!NAMIG]
+> [!TIP]
 > Če ne znate uporabljati Gita/GitHuba ali ne morete slediti tem navodilom iz kakršnega koli drugega razloga, si lahko ogledate [Jelkly](https://jelkly.fmf.uni-lj.si/docs). 
 > Nudi orodje za vizualno programiranje, podobno Scratchu, za ustvarjanje in pošiljanje svojih vzorcev za Jelko FMF, brez potrebe po programerskem znanju.
 

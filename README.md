@@ -144,6 +144,30 @@ Before commiting your pattern, please make sure it is properly formatted:
 npm run format patterns/pattern-name
 ```
 
+### Patterns in Other Languages
+
+To write a pattern in another language, you should construct a Dockerfile that builds and runs your code. Docker containers mount `/tmp/jelka` pipe, and color information should be written there. This can be achieved by either directly writing to the pipe or redirecting standard output to the pipe (as seen in `python` and `js` examples).
+
+The current format follows this pattern:
+```
+#<color in hex><next color in hex> ... <last color in hex>\n
+```
+
+Key guidelines for color representation:
+- Each frame is on its own line
+- Colors should be written using hex digits only (Valid white color is `ffffff`, not `#ffffff`)
+- The `#` prefix should be used only at the start of the line
+- Lines not starting with `#` will be treated as comments and ignored
+
+To configure framerate or other information, send a header to the same `/tmp/jelka` pipe before running the pattern. An example header that should suffice for most use cases:
+```
+#{"version": 0, "led_count": 500, "fps": 60}
+```
+
+Important notes:
+- Hardware-limited framerate is 66 frames per second, so do not expect more than 60 fps
+- Many languages will not flush output automatically, so you may need to implement manual flushing
+
 ### Guidelines
 
 * Patterns should be written in a way that they can be run in a Docker container.

@@ -22,5 +22,5 @@ while True:
     state = ["000000"]*500
     print("#" + ''.join(state), flush=True)
     for lucka in sorted(lucke, key= lambda z: z[3]):
-       state[lucka[0]] = "00ff00"
+       state[lucka[0]] = "0000ff"
        print("#" + ''.join(state), flush=True)

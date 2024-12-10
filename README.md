@@ -2,6 +2,7 @@
 
 Repository of patterns running on Jelka FMF.
 
+[Navodila so navoljo tudi v slovenskem jeziku.](https://github.com/Jelka-FMF/Storzi/blob/main/README.sl.md)
 ## About
 
 This repository contains all patterns that are running on [Jelka FMF](https://jelka.fmf.uni-lj.si/).

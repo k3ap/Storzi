@@ -1,5 +1,3 @@
-import time, colorsys
-
 print('#{"version": 0, "led_count": 500, "fps": 60}')
 
 

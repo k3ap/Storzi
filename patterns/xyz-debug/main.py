@@ -1,12 +1,10 @@
-import time
-
 print('#{"version": 0, "led_count": 500, "fps": 60}')
 lucke = []
 
 with open("/app/positions.csv") as f:
     for line in f.readlines():
-        l = line.strip().split(",")
-        lucke.append([int(l[0]), float(l[1]), float(l[2]), float(l[3])])
+        line = line.strip().split(",")
+        lucke.append([int(line[0]), float(line[1]), float(line[2]), float(line[3])])
 state = ["000000"] * 500
 while True:
     state = ["000000"] * 500

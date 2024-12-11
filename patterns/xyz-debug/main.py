@@ -3,7 +3,7 @@ import time
 print('#{"version": 0, "led_count": 500, "fps": 60}')
 lucke = []
 
-with open("3Dlocs.csv") as f:
+with open("/app/positions.csv") as f:
     for line in f.readlines():
         l = line.strip().split(",")
         lucke.append([int(l[0]), float(l[1]), float(l[2]), float(l[3])])

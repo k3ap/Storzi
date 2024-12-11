@@ -2,6 +2,7 @@ import time, colorsys
 
 print('#{"version": 0, "led_count": 500, "fps": 60}')
 
+
 def hsv_to_hex(h, s, v):
     """
     Convert HSV color values to hexadecimal color code.
@@ -25,15 +26,15 @@ def hsv_to_hex(h, s, v):
     x = c * (1 - abs((h * 6) % 2 - 1))
 
     # Determine RGB values based on hue sector
-    if 0 <= h < 1/6:
+    if 0 <= h < 1 / 6:
         r, g, b = c, x, 0
-    elif 1/6 <= h < 1/3:
+    elif 1 / 6 <= h < 1 / 3:
         r, g, b = x, c, 0
-    elif 1/3 <= h < 1/2:
+    elif 1 / 3 <= h < 1 / 2:
         r, g, b = 0, c, x
-    elif 1/2 <= h < 2/3:
+    elif 1 / 2 <= h < 2 / 3:
         r, g, b = 0, x, c
-    elif 2/3 <= h < 5/6:
+    elif 2 / 3 <= h < 5 / 6:
         r, g, b = x, 0, c
     else:
         r, g, b = c, 0, x
@@ -43,7 +44,8 @@ def hsv_to_hex(h, s, v):
     r, g, b = r + m, g + m, b + m
 
     # Convert to 0-255 range and then to hex
-    return '{:02x}{:02x}{:02x}'.format(int(r * 255), int(g * 255), int(b * 255))
+    return "{:02x}{:02x}{:02x}".format(int(r * 255), int(g * 255), int(b * 255))
+
 
 h = 0
 while True:
@@ -51,5 +53,5 @@ while True:
     h %= 360
     st = "#"
     for i in range(500):
-        st += hsv_to_hex((h+i)%360, 100, 100)
+        st += hsv_to_hex((h + i) % 360, 100, 100)
     print(st, flush=True)

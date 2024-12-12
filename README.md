@@ -2,7 +2,9 @@
 
 Repository of patterns running on Jelka FMF.
 
-[Navodila so navoljo tudi v slovenskem jeziku.](https://github.com/Jelka-FMF/Storzi/blob/main/README.sl.md)
+> [!TIP]
+> [Navodila so na voljo tudi v slovenskem jeziku.](https://github.com/Jelka-FMF/Storzi/blob/main/README.sl.md)
+
 ## About
 
 This repository contains all patterns that are running on [Jelka FMF](https://jelka.fmf.uni-lj.si/).
@@ -49,7 +51,8 @@ the language will be automatically detected based on the file extension.
 If you are writing a pattern in a language that we do not provide a template for,
 you will also have to write a custom `Dockerfile` that will be used to compile
 and run the pattern. When started, the `Dockerfile` should run the pattern and
-pipe its output to `/tmp/jelka`.
+pipe its output to `/tmp/jelka`. You can access the positions of the lights in
+the `/app/positions.csv` file.
 
 If you are writing a pattern in a language that we provide a template for, you can
 still write a custom `Dockerfile` if you need additional configuration, but it is
@@ -96,7 +99,7 @@ This will install all available libraries that can be used in Python patterns, i
 addition to the simulation for running the patterns locally, and development tools.
 
 Your pattern can use the [Jelka Python API](https://github.com/Jelka-FMF/JelkaPy),
-as other available libraries (see below).
+as well as other available libraries (see below).
 
 The main pattern filename must be `main.py`.
 
@@ -129,7 +132,7 @@ You should still install Python dependencies as specified in the above section,
 as they are used for running the simulation.
 
 Your pattern can use the [Jelka JavaScript API](https://github.com/Jelka-FMF/JelkaJS),
-as other available libraries (see below).
+as well as other available libraries (see below).
 
 The main pattern filename must be `main.js`.
 
@@ -181,7 +184,7 @@ Important notes:
 
 * Base image: [`images/python`](images/python)
 * Default template: [`defaults/python`](defaults/python)
-* Available libraries: [`requirements.txt`](images/python/requirements.in)
+* Available libraries: [`requirements.in`](images/python/requirements.in)
 * Pattern filename: `main.py`
 
 ### JavaScript

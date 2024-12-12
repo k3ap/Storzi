@@ -1,33 +1,83 @@
-# Shramba Storžev - Zbirka vzorcev za Jelko FMF
+# Storži
+
+Zbirka vzorcev za Jelko FMF.
 
 ## O projektu
 
-Ta repozitorij vsebuje vse vzorce, ki tečejo na [Jelki FMF](https://jelka.fmf.uni-lj.si/). Vzorci so na voljo v mapi `patterns`. Vsak vzorec je v svoji mapi in je lahko napisan v večini programskih jezikov, ki podpirajo izpis na standardni izhod in se lahko izvajajo v Docker vsebniku. Vsi vzorci iz repozitorija se samodejno prevedejo in namestijo na strežnik Jelkob ter bodo prikazani na uradni novoletni jelki Fakultete za matematiko in fiziko Univerze v Ljubljani.
+Ta repozitorij vsebuje vse vzorce, ki tečejo na [Jelki FMF](https://jelka.fmf.uni-lj.si/).
+
+Vzorci so na voljo v mapi `patterns`. Vsak vzorec je v svoji mapi in je lahko napisan
+v večini programskih jezikov, ki podpirajo izpis na standardni izhod in se lahko izvajajo
+v Docker vsebniku.
+
+Vsi vzorci iz repozitorija se samodejno prevedejo in namestijo na strežnik Jelkob ter bodo
+prikazani na uradni novoletni jelki Fakultete za matematiko in fiziko Univerze v Ljubljani.
 
 ## Prispevanje
 
 > [!TIP]
-> Če ne znate uporabljati Gita/GitHuba ali ne morete slediti tem navodilom iz kakršnega koli drugega razloga, si lahko ogledate [Jelkly](https://jelkly.fmf.uni-lj.si/docs). 
-> Nudi orodje za vizualno programiranje, podobno Scratchu, za ustvarjanje in pošiljanje svojih vzorcev za Jelko FMF, brez potrebe po programerskem znanju.
+> Če ne znate uporabljati Gita/GitHuba ali ne morete slediti tem navodilom iz kakršnega
+> koli drugega razloga, si lahko ogledate [Jelkly](https://jelkly.fmf.uni-lj.si/docs). 
+> Nudi orodje za vizualno programiranje, podobno Scratchu, za ustvarjanje in pošiljanje
+> svojih vzorcev za Jelko FMF, brez potrebe po znanju programiranja.
 
 ### Splošne informacije
 
-Vse vzorce najdete v mapi `patterns`. Vsak vzorec vključuje svojo mapo, ki mora vsebovati datoteki `config.yml` in `main.*` ter opcijsko `Dockerfile`. Ime mape služi kot ID vzorca. Ime mape naj vsebuje le male črke, številke ter pomišljaje.
+Vse vzorce najdete v mapi `patterns`.
 
-Datoteka `config.yml` vsebuje konfiguracijo vzorca. Nastavlja osnovne informacije o vzorcu, kot so ime, opis, avtor in šola. Ime mora biti kratko, opisno in unikatno, medtem ko naj opis v stavku ali dveh razloži, kaj vzorec počne.
+Vsak vzorec vključuje svojo mapo, ki mora vsebovati datoteki `config.yml` in `main.*`
+ter opcijsko `Dockerfile`.
 
-Datoteka `main.*` je glavna datoteka vzorca, ki se izvede, ko se vzorec zažene. Če pišete vzorec v jeziku, za katerega nudimo predlogo, bo jezik samodejno zaznan glede na pripono datoteke. Če vzorec pišete v jeziku, za katerega ne nudimo predloge, boste morali napisati tudi lasten `Dockerfile`, ki bo uporabljen za prevajanje in zagon vzorca. Med zagonom naj `Dockerfile` zažene vzorec in preusmeri izhod vzorca na `/tmp/jelka`.
+Ime mape služi kot ID vzorca. Ime mape naj bo podobno imenu vzorca, in naj vsebuje
+le male črke, številke ter pomišljaje.
 
-Če pišete vzorec v jeziku, za katerega nudimo predlogo, lahko kljub temu napišete lasten `Dockerfile`, če potrebujete dodatno konfiguracijo, vendar je priporočeno uporabljati privzeto predlogo, če je le mogoče.
+Datoteka `config.yml` vsebuje konfiguracijo vzorca. Nastavlja osnovne informacije o vzorcu,
+kot so ime, opis, avtor in šola. Ime mora biti kratko, opisno in unikatno, medtem ko naj opis
+v stavku ali dveh razloži, kaj vzorec počne.
+
+Datoteka `main.*` je glavna datoteka vzorca, ki se izvede, ko se vzorec zažene.
+
+Če pišete vzorec v jeziku, za katerega nudimo uradno predlogo, bo jezik samodejno zaznan
+glede na končnico datoteke.
+
+Če vzorec pišete v jeziku, za katerega ne nudimo predloge, boste morali napisati tudi
+lasten `Dockerfile`, ki bo uporabljen za prevajanje in zagon vzorca. Med zagonom naj `Dockerfile`
+zažene vzorec in preusmeri izhod vzorca na `/tmp/jelka`. Več informacij o razvoju vzorcev
+brez knjižnjice lahko preberete [spodaj](#vzorci-v-drugih-jezikih).
+
+Če pišete vzorec v jeziku, za katerega nudimo predlogo, lahko kljub temu napišete lasten
+`Dockerfile`, če potrebujete dodatno konfiguracijo, vendar je priporočeno uporabljati
+privzeto predlogo, če je le mogoče.
 
 ### Dodajanje vzorca
 
-Najprej naredite razcep repozitorija in ga klonirajte na svoj računalnik:
+Če nimate že nastavljenega Gita oziroma GitHuba, si lahko [tukaj](https://docs.github.com/en/get-started/getting-started-with-git/set-up-git)
+prebereta uradna navodila.
+
+Najprej naredite razcep (fork) repozitorija in ga klonirajte na svoj računalnik:
 
 ```bash
 git clone https://github.com/Jelka-FMF/Storzi.git
 cd Storzi
 ```
+
+V zgornjem ukazu nadomestite `Jelka-FMF` s svojim uporabniškim imenom.
+
+Ko ste v repozitoriju, ustvarite Python virtualno okolje (venv):
+
+```bash
+python -m venv venv
+```
+
+Okolje lahko nato aktivirate:
+
+```bash
+venv\Scripts\activate # Na Windowsu
+source venv/bin/activate # Na Linuxu and macOSu
+```
+
+Če uporabljate urejevalnik kot je Visual Studio Code ali PyCharm, lahko namesto tega
+ustvarite in aktivirate virtualno okolje s funkcijami v urejevalniku.
 
 Nato namestite zahtevane knjižnice:
 
@@ -35,7 +85,9 @@ Nato namestite zahtevane knjižnice:
 pip install -r requirements.txt
 ```
 
-Za dodajanje novega vzorca ustvarite novo mapo v mapi `patterns` ter dodajte datoteki `config.yml` in `main.*`. Preglejte navodila zgoraj za splošne informacije o datotekah ter spodnje razdelke, specifične za jezik.
+Za dodajanje novega vzorca ustvarite novo mapo v mapi `patterns` ter dodajte datoteki
+`config.yml` in `main.*`. Preglejte navodila zgoraj za splošne informacije o datotekah
+ter spodnje razdelke, specifične za jezik.
 
 Ko ste vzorec dodali (in ga ustrezno oblikovali), shranite spremembe:
 
@@ -44,19 +96,36 @@ git add patterns/ime-vzorca
 git commit -m "Vaše sporočilo ob shranjevanju"
 ```
 
-Nato lahko svoje spremembe potisnete in ustvarite pull request.
+Spremembe lahko nato objavite:
 
-### Python vzorci
+```
+git push
+```
 
-Ko pišete Python vzorec, namestite priporočene knjižnice iz datoteke `requirements.txt` v korenu repozitorija:
+Nato s pomočjo GitHub vmesnika ustvarite pull request (PR). 
+
+### Vzorci v Pythonu
+
+Ko pišete Python vzorec, namestite priporočene knjižnice iz datoteke
+`requirements.txt` v korenu repozitorija:
 
 ```bash
 pip install -r requirements.txt
 ```
 
-To bo namestilo vse razpoložljive knjižnice, ki jih lahko uporabljate v Python vzorcih, poleg simulacije za lokalni zagon vzorcev in razvojnih orodij. Vaš vzorec lahko uporablja [Jelka Python API](https://github.com/Jelka-FMF/JelkaPy) in druge razpoložljive knjižnice (glejte spodaj).
+To bo namestilo vse razpoložljive knjižnice, ki jih lahko uporabljate
+v Python vzorcih, poleg simulacije za lokalni zagon vzorcev in drugih
+razvojnih orodij.
 
-Glavno ime datoteke vzorca mora biti `main.py`. Med razvojem vzorca ga lahko zaženete lokalno z uporabo simulacije:
+Vaš vzorec lahko uporablja [Jelka Python API](https://github.com/Jelka-FMF/JelkaPy)
+in druge razpoložljive knjižnice (glejte spodaj).
+
+Glavno ime datoteke vzorca mora biti `main.py`.
+
+Kot predlogo lahko preverite [primer Python vzorca](patterns/example-python/).
+Za inspiracijo si lahko pogledate tudi obstoječe Python vzorce.
+
+Med razvojem vzorca ga lahko zaženete lokalno z uporabo simulacije:
 
 ```bash
 jelkasim patterns/ime-vzorca/main.py
@@ -69,17 +138,30 @@ ruff check patterns/ime-vzorca
 ruff format patterns/ime-vzorca
 ```
 
-### JavaScript vzorci
+### Vzorci v JavaScriptu
 
-Ko pišete JavaScript vzorec, namestite priporočene knjižnice iz datoteke `package.json` v korenu repozitorija:
+Ko pišete JavaScript vzorec, namestite priporočene knjižnice iz datoteke
+`package.json` v korenu repozitorija:
 
 ```bash
 npm install
 ```
 
-To bo namestilo vse razpoložljive knjižnice, ki jih lahko uporabljate v JavaScript vzorcih, poleg razvojnih orodij. Še vedno pa morate namestiti Python odvisnosti, kot je specifirano v zgornjem razdelku, saj se uporabljajo za zagon simulacije.
+To bo namestilo vse razpoložljive knjižnice, ki jih lahko uporabljate
+v JavaScript vzorcih, poleg razvojnih orodij.
 
-Vaš vzorec lahko uporablja [Jelka JavaScript API](https://github.com/Jelka-FMF/JelkaJS) in druge razpoložljive knjižnice (glejte spodaj). Glavno ime datoteke vzorca mora biti `main.js`. Med razvojem vzorca ga lahko zaženete lokalno z uporabo simulacije:
+Še vedno pa morate namestiti Python knjižnjice, kot je specifirano
+v zgornjem razdelku, saj se uporabljajo za zagon simulacije.
+
+Vaš vzorec lahko uporablja [Jelka JavaScript API](https://github.com/Jelka-FMF/JelkaJS)
+in druge razpoložljive knjižnice (glejte spodaj).
+
+Glavno ime datoteke vzorca mora biti `main.js`.
+
+Kot predlogo lahko preverite [primer JavaScript vzorca](patterns/example-javascript/).
+Za inspiracijo si lahko pogledate tudi obstoječe JavaScript vzorce.
+
+Med razvojem vzorca ga lahko zaženete lokalno z uporabo simulacije:
 
 ```bash
 jelkasim node patterns/ime-vzorca/main.js
@@ -93,31 +175,48 @@ npm run format patterns/ime-vzorca
 
 ### Vzorci v drugih jezikih
 
-Za pisanje vzorcev v drugih jezikih je potrebno izdelati `Dockerfile`, ki bo gradil in zagnal vašo kodo. Docker vsebniki pritrdijo cev `/tmp/jelka`, kamor se morajo zapisovati informacije o barvah. To lahko dosežete bodisi z neposrednim pisanjem v cev bodisi z preusmeritvijo standardnega izhoda v cev (kot je prikazano v primerih `python` in `js`).
+Za pisanje vzorcev v drugih jezikih je potrebno izdelati `Dockerfile`,
+ki bo gradil in zagnal vašo kodo. Ko se Docker vsebnik zažene, mora
+zagnati vaš vzorec.
 
-Trenutni format sledi temu vzorcu:
+Docker vsebniki pritrdijo cev `/tmp/jelka`, kamor se morajo zapisovati
+informacije o barvah. To lahko dosežete bodisi z neposrednim pisanjem
+v cev bodisi z preusmeritvijo standardnega izhoda v cev.
+
+Prva vrstica mora biti glava vzorca, ki specificira podatke o vzorcih:
+
+```
+#{"version": 0, "led_count": 500, "fps": 60}\n
+``` 
+
+Nato mora vzorec za vsako sličico poslati podatke o barvah v naslednjem formatu:
 
 ``` 
 #<barva v hexadecimalni obliki><naslednja barva v hexadecimalni obliki> ... <zadnja barva v hexadecimalni obliki>\n
 ```
 
 Glavne smernice za predstavitev barv:
-- Vsaka sličica je na svoji vrstici
-- Barve naj bodo zapisane le v hexadecimalni obliki (veljavna bela je `ffffff`, ne pa `#ffffff`)
-- Predpona `#` se uporabi samo na začetku vrstice
-- Vrstice, ki se ne začnejo z `#`, bodo obravnavane kot komentarji in ignorirane
 
-Za konfiguracijo hitrosti prikazovanja slik (fps) ali drugih informacij pošljite glavo v isto cev `/tmp/jelka` pred zagonom vzorca. Primer glave, ki zadostuje za večino primerov:
+* Vsaka sličica je na svoji vrstici.
+* Barve naj bodo zapisane le v hexadecimalni obliki (veljavna bela je `ffffff`, ne pa `#ffffff`).
+* Predpona `#` se lahko uporabi samo na začetku vrstice.
+* Vrstice, ki se ne začnejo z `#`, so obravnavane kot komentarji in so ignorirane.
 
-``` 
-#{"version": 0, "led_count": 500, "fps": 60}
-``` 
 
 Pomembne opombe:
-- Hitrost prikaza je strojno omejena na 66 sličic na sekundo, zato ne pričakujte več kot 60 fps
-- Številni jeziki ne omogočajo avtomatskega praznjenja izhodnega toka, zato boste morda morali implementirati ročno praznjenje
+
+* Hitrost prikaza je strojno omejena na 66 sličic na sekundo, zato ne pričakujte več kot 60 sličic na sekundo.
+* Številni jeziki ne omogočajo avtomatskega praznjenja izhodnega toka, zato boste morda morali implementirati ročno praznjenje
+
+Docker vsebniki priklopijo CSV datoteko s pozicijami na `/tmp/positions.csv`.
+Zunaj vsebnika je primer CSV datoteke s pozicijami na voljo v [`data/positions.csv`](data/positions.csv)
+v tem repozitoriju. Vsaka vrstica vsebuje ID luči in XYZ pozicijo luči. Če ne
+uporabljate uradne knjižnice, boste morali ročno naložiti pravilno datoteko
+in razčleniti pozicije, če jih potrebujete. Če uporabljate uradno knjižnico,
+bo to obdelano samodejno.
 
 ### Smernice
+
 * Vzorci morajo biti napisani tako, da jih je mogoče zagnati v Docker vsebniku.
 * Vzorci morajo izhod posredovati na standardni izhod (ki je preusmerjen v `/tmp/jelka`).
 * Vzorci ne smejo prikazovati neprimerne vsebine.
@@ -125,13 +224,13 @@ Pomembne opombe:
 ## Predloge
 
 ### Python
-* Osnovna slika: [`images/python`](images/python)
+* Osnovna konfiguracija: [`images/python`](images/python)
 * Privzeta predloga: [`defaults/python`](defaults/python)
-* Razpoložljive knjižnice: [`requirements.txt`](images/python/requirements.in)
+* Razpoložljive knjižnice: [`requirements.in`](images/python/requirements.in)
 * Ime datoteke vzorca: `main.py`
 
 ### JavaScript
-* Osnovna slika: [`images/javascript`](images/javascript)
+* Osnovna konfiguracija: [`images/javascript`](images/javascript)
 * Privzeta predloga: [`defaults/javascript`](defaults/javascript)
 * Razpoložljive knjižnice: [`package.json`](images/javascript/package.json)
 * Ime datoteke vzorca: `main.js`

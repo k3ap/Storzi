@@ -51,8 +51,8 @@ the language will be automatically detected based on the file extension.
 If you are writing a pattern in a language that we do not provide a template for,
 you will also have to write a custom `Dockerfile` that will be used to compile
 and run the pattern. When started, the `Dockerfile` should run the pattern and
-pipe its output to `/tmp/jelka`. You can access the positions of the lights in
-the `/app/positions.csv` file.
+pipe its output to `/tmp/jelka`. You can read more about developing patterns
+without a library [below](#patterns-in-other-languages).
 
 If you are writing a pattern in a language that we provide a template for, you can
 still write a custom `Dockerfile` if you need additional configuration, but it is
@@ -60,12 +60,33 @@ recommended to use the default template if possible.
 
 ### Adding a Pattern
 
-First, for the repository and clone it to your computer:
+If you do not have Git and GitHub already set up, you can read the official
+documentation about configuring Git [here](https://docs.github.com/en/get-started/getting-started-with-git/set-up-git).
+
+First, fork the repository on GitHub and clone it to your computer:
 
 ```bash
 git clone https://github.com/Jelka-FMF/Storzi.git
 cd Storzi
 ```
+
+You should replace `Jelka-FMF` in the above command with your username.
+
+Once you are in the repository, create a Python virtual environment (venv):
+
+```bash
+python -m venv venv
+```
+
+You can then activate virtual environment:
+
+```bash
+venv\Scripts\activate # On Windows
+source venv/bin/activate # On Linux and macOS
+```
+
+If you are using editor like Visual Studio Code or PyCharm, you may instead
+create and activate your virtual environment using editor functionalities.
 
 Then, install the required dependencies:
 
@@ -84,7 +105,13 @@ git add patterns/pattern-name
 git commit -m "Your commit message"
 ```
 
-You can then push your changes and create a pull request.
+You can then push your changes:
+
+```bash
+git push
+```
+
+Then, you can submit a pull request (PR) through the GitHub interface.
 
 ### Python Patterns
 
@@ -102,6 +129,9 @@ Your pattern can use the [Jelka Python API](https://github.com/Jelka-FMF/JelkaPy
 as well as other available libraries (see below).
 
 The main pattern filename must be `main.py`.
+
+You can check [an example Python pattern](patterns/example-python/) for a template.
+You can also check existing Python patterns as an inspiration.
 
 While developing your pattern, you can run it locally using the simulation:
 
@@ -136,6 +166,9 @@ as well as other available libraries (see below).
 
 The main pattern filename must be `main.js`.
 
+You can check [an example JavaScript pattern](patterns/example-javascript/) for a template.
+You can also check existing JavaScript patterns as an inspiration.
+
 While developing your pattern, you can run it locally using the simulation:
 
 ```bash
@@ -150,27 +183,45 @@ npm run format patterns/pattern-name
 
 ### Patterns in Other Languages
 
-To write a pattern in another language, you should construct a Dockerfile that builds and runs your code. Docker containers mount `/tmp/jelka` pipe, and color information should be written there. This can be achieved by either directly writing to the pipe or redirecting standard output to the pipe (as seen in `python` and `js` examples).
+If you are writing a pattern in a language that we do not provide a template for,
+you will also have to write a custom `Dockerfile` that will be used to compile
+and run the pattern. When started, the `Dockerfile` should run your pattern.
 
-The current format follows this pattern:
+Docker containers automatically mount the `/tmp/jelka` pipe. Your pattern should
+either write data directly to the pipe, or write it to the standard output and
+redirect it to the `/tmp/jelka` pipe.
+
+The first line should be a header that specifies the pattern properties:
+
+```
+#{"version": 0, "led_count": 500, "fps": 60}\n
+```
+
+Then, for each frame, the pattern should write color data in the following format:
+
 ```
 #<color in hex><next color in hex> ... <last color in hex>\n
 ```
 
 Key guidelines for color representation:
-- Each frame is on its own line
-- Colors should be written using hex digits only (Valid white color is `ffffff`, not `#ffffff`)
-- The `#` prefix should be used only at the start of the line
-- Lines not starting with `#` will be treated as comments and ignored
 
-To configure framerate or other information, send a header to the same `/tmp/jelka` pipe before running the pattern. An example header that should suffice for most use cases:
-```
-#{"version": 0, "led_count": 500, "fps": 60}
-```
+* Each frame is on its own line.
+* Colors should be written using hex digits only (for example `ffffff`, not `#ffffff`).
+* The `#` prefix should be used only at the start of the line.
+* Lines not starting with `#` are treated as comments and are ignored.
 
 Important notes:
-- Hardware-limited framerate is 66 frames per second, so do not expect more than 60 fps
-- Many languages will not flush output automatically, so you may need to implement manual flushing
+
+* Hardware-limited framerate is 66 frames per second, so do not expect more than 60 frames per second.
+* Many languages will not flush output automatically, so you may need to implement manual flushing.
+
+Docker containers mount a CSV file with positions to `/tmp/positions.csv`.
+Outside the container, an example CSV file with positions is provided
+in the [`data/positions.csv`](data/positions.csv) in this repository.
+Each line contains a light ID, and the XYZ position of a light.
+If you are not using an official library, you will need to manually
+load the correct file and parse it positions if you need them.
+If you are using an official library, this will be handled automatically.
 
 ### Guidelines
 

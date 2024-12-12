@@ -51,7 +51,7 @@ def hsv_to_hex(h, s, v):
 
 lucke = []
 # Might fail in the future if the file is moved
-locations = pathlib.Path(__file__).parent.parent / "xyz-debug" / "3Dlocs.csv"
+locations = pathlib.Path("/app/positions.csv")
 with open(locations) as f:
     for line in f.readlines():
         l = line.strip().split(",")

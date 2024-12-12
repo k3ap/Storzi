@@ -1,0 +1,14 @@
+# Choose a simple unique name for your pattern
+name: Spinning Gradient
+
+# Describe your pattern in a short sentence
+description: A colour gradient whose direction rotates over time.
+
+# Optionally specify your name and school/university
+# Remove the lines if you do not want to include this information
+author: Jaka Velkaverh
+school: FMF
+
+# Optionally uncomment and specify the duration of your pattern in seconds
+# Remove the line if your pattern does not require a specific duration
+# duration: 60

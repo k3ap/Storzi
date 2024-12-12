@@ -54,14 +54,14 @@ privzeto predlogo, če je le mogoče.
 Če nimate že nastavljenega Gita oziroma GitHuba, si lahko [tukaj](https://docs.github.com/en/get-started/getting-started-with-git/set-up-git)
 prebereta uradna navodila.
 
-Najprej naredite razcep (fork) repozitorija in ga klonirajte na svoj računalnik:
+Najprej naredite razcep (fork) repozitorija, kot je opisano v [dokumentaciji](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/fork-a-repo).
+
+Nato ga klonirajte na svoj računalnik:
 
 ```bash
-git clone https://github.com/Jelka-FMF/Storzi.git
+git clone https://github.com/VASE-GITHUB-UPORABNISKO-IME/Storzi.git
 cd Storzi
 ```
-
-V zgornjem ukazu nadomestite `Jelka-FMF` s svojim uporabniškim imenom.
 
 Ko ste v repozitoriju, ustvarite Python virtualno okolje (venv):
 
@@ -73,6 +73,9 @@ Okolje lahko nato aktivirate:
 
 ```bash
 venv\Scripts\activate # Na Windowsu
+```
+
+```bash
 source venv/bin/activate # Na Linuxu and macOSu
 ```
 
@@ -92,13 +95,13 @@ ter spodnje razdelke, specifične za jezik.
 Ko ste vzorec dodali (in ga ustrezno oblikovali), shranite spremembe:
 
 ```bash
-git add patterns/ime-vzorca
+git add patterns/vase-ime-vzorca
 git commit -m "Vaše sporočilo ob shranjevanju"
 ```
 
 Spremembe lahko nato objavite:
 
-```
+```bash
 git push
 ```
 
@@ -128,14 +131,14 @@ Za inspiracijo si lahko pogledate tudi obstoječe Python vzorce.
 Med razvojem vzorca ga lahko zaženete lokalno z uporabo simulacije:
 
 ```bash
-jelkasim patterns/ime-vzorca/main.py
+jelkasim patterns/vase-ime-vzorca/main.py
 ```
 
 Pred shranjevanjem vzorca se prepričajte, da je ustrezno oblikovan:
 
 ```bash
-ruff check patterns/ime-vzorca
-ruff format patterns/ime-vzorca
+ruff check patterns/vase-ime-vzorca
+ruff format patterns/vase-ime-vzorca
 ```
 
 ### Vzorci v JavaScriptu
@@ -164,13 +167,13 @@ Za inspiracijo si lahko pogledate tudi obstoječe JavaScript vzorce.
 Med razvojem vzorca ga lahko zaženete lokalno z uporabo simulacije:
 
 ```bash
-jelkasim node patterns/ime-vzorca/main.js
+jelkasim node patterns/vase-ime-vzorca/main.js
 ```
 
 Pred shranjevanjem vzorca se prepričajte, da je ustrezno oblikovan:
 
 ```bash
-npm run format patterns/ime-vzorca
+npm run format patterns/vase-ime-vzorca
 ```
 
 ### Vzorci v drugih jezikih
@@ -178,6 +181,9 @@ npm run format patterns/ime-vzorca
 Za pisanje vzorcev v drugih jezikih je potrebno izdelati `Dockerfile`,
 ki bo gradil in zagnal vašo kodo. Ko se Docker vsebnik zažene, mora
 zagnati vaš vzorec.
+
+Za razvijanje vzorca in uporabo simulacije morate še vedno namestiti
+Python knjižnjice, kot je specifirano v zgornjem razdelku.
 
 Docker vsebniki pritrdijo cev `/tmp/jelka`, kamor se morajo zapisovati
 informacije o barvah. To lahko dosežete bodisi z neposrednim pisanjem

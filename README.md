@@ -63,14 +63,14 @@ recommended to use the default template if possible.
 If you do not have Git and GitHub already set up, you can read the official
 documentation about configuring Git [here](https://docs.github.com/en/get-started/getting-started-with-git/set-up-git).
 
-First, fork the repository on GitHub and clone it to your computer:
+First, fork the repository on GitHub as documented [here](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/fork-a-repo).
+
+Then, and clone it to your computer:
 
 ```bash
-git clone https://github.com/Jelka-FMF/Storzi.git
+git clone https://github.com/YOUR-GITHUB-USERNAME/Storzi.git
 cd Storzi
 ```
-
-You should replace `Jelka-FMF` in the above command with your username.
 
 Once you are in the repository, create a Python virtual environment (venv):
 
@@ -82,6 +82,9 @@ You can then activate virtual environment:
 
 ```bash
 venv\Scripts\activate # On Windows
+```
+
+```bash
 source venv/bin/activate # On Linux and macOS
 ```
 
@@ -101,7 +104,7 @@ about the files, and the language-specific sections below.
 After you have added the pattern (and formatted it properly), commit your changes:
 
 ```bash
-git add patterns/pattern-name
+git add patterns/your-pattern-name
 git commit -m "Your commit message"
 ```
 
@@ -136,14 +139,14 @@ You can also check existing Python patterns as an inspiration.
 While developing your pattern, you can run it locally using the simulation:
 
 ```bash
-jelkasim patterns/pattern-name/main.py
+jelkasim patterns/your-pattern-name/main.py
 ```
 
 Before commiting your pattern, please make sure it is properly formatted:
 
 ```bash
-ruff check patterns/pattern-name
-ruff format patterns/pattern-name
+ruff check patterns/your-pattern-name
+ruff format patterns/your-pattern-name
 ```
 
 ### JavaScript Patterns
@@ -172,13 +175,13 @@ You can also check existing JavaScript patterns as an inspiration.
 While developing your pattern, you can run it locally using the simulation:
 
 ```bash
-jelkasim node patterns/pattern-name/main.js
+jelkasim node patterns/your-pattern-name/main.js
 ```
 
 Before commiting your pattern, please make sure it is properly formatted:
 
 ```bash
-npm run format patterns/pattern-name
+npm run format patterns/your-pattern-name
 ```
 
 ### Patterns in Other Languages
@@ -186,6 +189,9 @@ npm run format patterns/pattern-name
 If you are writing a pattern in a language that we do not provide a template for,
 you will also have to write a custom `Dockerfile` that will be used to compile
 and run the pattern. When started, the `Dockerfile` should run your pattern.
+
+To develop the patterna and run the simulation, you will still have to install
+Python dependencies as specified in the above section.
 
 Docker containers automatically mount the `/tmp/jelka` pipe. Your pattern should
 either write data directly to the pipe, or write it to the standard output and

@@ -50,8 +50,8 @@ def hsv_to_hex(h, s, v):
 
 
 lucke = []
-locations = pathlib.Path("/app/positions.csv")
-# locations = pathlib.Path(__file__).parent / "positions.csv" # Used locally when testing.
+locations = pathlib.Path("/app/positions.csv")  # Used in Docker when running on tree.
+# locations = pathlib.Path(__file__).resolve().parents[2] / "data" / "positions.csv"  # Used locally when testing.
 with open(locations) as f:
     for line in f.readlines():
         split_line = line.strip().split(",")

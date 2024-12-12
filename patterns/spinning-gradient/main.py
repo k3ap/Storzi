@@ -1,8 +1,8 @@
-print('#{"version": 0, "led_count": 500, "fps": 60}')
-
 import random
 import numpy as np
 import pathlib
+
+print('#{"version": 0, "led_count": 500, "fps": 60}')
 
 
 def hsv_to_hex(h, s, v):
@@ -50,12 +50,12 @@ def hsv_to_hex(h, s, v):
 
 
 lucke = []
-# Might fail in the future if the file is moved
 locations = pathlib.Path("/app/positions.csv")
+# locations = pathlib.Path(__file__).parent / "positions.csv" # Used locally when testing.
 with open(locations) as f:
     for line in f.readlines():
-        l = line.strip().split(",")
-        lucke.append([int(l[0]), float(l[1]), float(l[2]), float(l[3])])
+        split_line = line.strip().split(",")
+        lucke.append([int(split_line[0]), float(split_line[1]), float(split_line[2]), float(split_line[3])])
 lucke.sort(key=lambda x: x[0])  # Make sure the LED indices are in order
 
 

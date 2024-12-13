@@ -1,0 +1,14 @@
+# Choose a simple unique name for your pattern
+name: Eksplozija
+
+# Describe your pattern in a short sentence
+description: Tišina, nato pa nenadno eksplodira
+
+# Optionally specify your name and school/university
+# Remove the lines if you do not want to include this information
+author: Patrik Žnidaršič
+school: Fakulteta za matematiko in fiziko
+
+# Optionally uncomment and specify the duration of your pattern in seconds
+# Remove the line if your pattern does not require a specific duration
+duration: 8

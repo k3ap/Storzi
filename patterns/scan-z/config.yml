@@ -1,4 +1,5 @@
 name: Scan Z
+description: A line moves from one end of the tree to the other along the Z-axis
 
-author: Filip
-school: Fakulteta za matematiko in fiziko
+author: Filip Štamcar
+school: FMF

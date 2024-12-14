@@ -1,8 +1,7 @@
 import math
-import random
 
 from jelka import Jelka
-from jelka.types import Color, Position
+from jelka.types import Color
 from jelka.util import distance
 
 color: Color

@@ -1,0 +1,5 @@
+name: /dev/urandom
+description: Lights sequentially turn on and off in random colors
+
+author: Anton
+school: Fakulteta za računalniške igrice

@@ -1,9 +1,5 @@
-import math
-
 from jelka import Jelka
-from jelka.shapes import Sphere
 from jelka.types import Color
-
 import numpy as np
 
 
@@ -66,7 +62,6 @@ def callback(jelka: Jelka):
     img, duration, c = s[idx]
 
     fi = t // total_duration * 0.3
-    fi = 0
 
     uu = np.array([[np.sin(fi), np.cos(fi), 0]])
     vv = np.array([[0, 0, 1]])

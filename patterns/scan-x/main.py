@@ -3,7 +3,7 @@ from jelka.types import Color
 
 axis = 0
 threshold = 0.05
-dimmer = 0.2
+dimmer = 0
 
 color: Color
 

@@ -77,7 +77,7 @@ def callback(jelka: Jelka):
     ok = (i >= 0) & (i < img.shape[0]) & (j >= 0) & (j < img.shape[1])
 
     col = np.zeros((len(u), 3))
-    col[:, :] = np.array([0.1, 0.1, 0.1])
+    col[:, :] = np.array([0.0, 0.0, 0.0])
     col[ok] = (img[-i[ok], j[ok]] * c.T).T
 
     col[pos[:, 2] > 175] = np.array([1, 1, 0.4])
@@ -87,7 +87,7 @@ def callback(jelka: Jelka):
 
 
 def main():
-    jelka = Jelka(60)
+    jelka = Jelka(25)
     jelka.run(callback)
 
 

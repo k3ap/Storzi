@@ -88,7 +88,7 @@ venv\Scripts\activate # On Windows
 source venv/bin/activate # On Linux and macOS
 ```
 
-If you are using editor like Visual Studio Code or PyCharm, you may instead
+If you are using an editor like Visual Studio Code or PyCharm, you may instead
 create and activate your virtual environment using editor functionalities.
 
 Then, install the required dependencies:

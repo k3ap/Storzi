@@ -9,9 +9,9 @@ def callback(jelka: Jelka):
         jelka.set_light(
             light,
             Color(
-                (position[0] * 255 + math.sin(jelka.elapsed_time + 1) * 255 + 256) % 256,
-                (position[1] * 255 + math.sin(jelka.elapsed_time + 2) * 255 + 256) % 256,
-                (position[2] * 255 + math.sin(jelka.elapsed_time) * 255 + 256) % 256,
+                (position[0] * 255 + math.sin((jelka.elapsed_time + 1) / 4) * 255 + 256) % 256,
+                (position[1] * 255 + math.sin((jelka.elapsed_time + 2) / 4) * 255 + 256) % 256,
+                (position[2] * 255 + math.sin(jelka.elapsed_time / 4) * 255 + 256) % 256,
             ).vivid(),
         )
 

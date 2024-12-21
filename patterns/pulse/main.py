@@ -1,7 +1,7 @@
 import math
 
 from jelka import Jelka
-from jelka.types import Color, Position
+from jelka.types import Color
 from jelka.util import distance
 
 color: Color
@@ -13,14 +13,13 @@ def callback(jelka: Jelka):
     if jelka.frame % 10 == 0:
         color = Color.vivid(Color.random())
 
-    sphere_center = Position(0.25, 0.25, 0.5)
-    rad2 = (math.e ** (math.sin(jelka.frame / jelka.frame_rate * 2))) / 3
-    rad1 = (math.e ** (math.cos(jelka.frame / jelka.frame_rate * 2))) / 3
+    rad2 = (math.e ** (math.sin(jelka.frame / jelka.frame_rate * 2) - 0.5)) / 3
+    rad1 = (math.e ** (math.cos(jelka.frame / jelka.frame_rate * 2) - 0.5)) / 3
 
     cnt = 0
 
     for light, position in jelka.positions_normalized.items():
-        dist = distance(sphere_center, position)
+        dist = distance(jelka.center_normalized, position)
         if rad1 >= dist >= rad2:
             cnt += 1
             j = dist / rad1

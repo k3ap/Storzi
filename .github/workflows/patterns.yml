@@ -154,10 +154,10 @@ jobs:
           cd "patterns/$pattern"
 
           # Parse the config file
-          name=$(yq e '.name' config.yml)
-          description=$(yq e '.description' config.yml)
-          author=$(yq e '.author' config.yml)
-          school=$(yq e '.school' config.yml)
+          name=$(yq e '.name // ""' config.yml)
+          description=$(yq e '.description // ""' config.yml)
+          author=$(yq e '.author // ""' config.yml)
+          school=$(yq e '.school // ""' config.yml)
           duration=$(yq e '.duration' config.yml)
 
           # Prepare the payload
